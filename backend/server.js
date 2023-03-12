@@ -43,6 +43,6 @@ const start = async(port)=>{
    
 }
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 start(port)
 
