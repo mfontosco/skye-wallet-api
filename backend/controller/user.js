@@ -1,5 +1,5 @@
 import User from '../models/user.js'
-import generateToken from '../Utils/generateToken'
+import generateToken from '../Utils/generateToken.js'
 import generateUniqueId from 'generate-unique-id';
 
 
