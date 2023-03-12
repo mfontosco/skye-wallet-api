@@ -4,7 +4,7 @@ import JWT from 'jsonwebtoken'
 
 
 const generateToken= async(id)=>{
-    return await JWT.sign({id},process.env.JWTSECRET,{expiresIn:"2hrs"})
+    return await JWT.sign({id},process.env.JWTSECRET,{expiresIn:"12hrs"})
 }
 
 export default generateToken;

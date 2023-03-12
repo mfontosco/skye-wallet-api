@@ -123,7 +123,9 @@ const getAllUsers = async (req, res) => {
         user.payment_id = user.payment_id.filter((id) => id !== paymentId);
         await user.save();
     
-        res.status(204).send();
+        res.status(200).json({
+          message:"paymentId deleted successfully"
+        });
       } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

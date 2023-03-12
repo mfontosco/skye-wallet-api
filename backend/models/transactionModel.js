@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 
 const TransactionSchema = mongoose.Schema({
-        senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        amount: Number,
+        amount:{type: Number} ,
         description:{type:String},
         createdAt: { type: Date, default: Date.now }
       });

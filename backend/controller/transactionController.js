@@ -4,6 +4,8 @@ import User from '../models/user.js';
 const sendMoney = async (req, res) => {
     const { paymentId } = req.params;
     const { amount } = req.body;
+
+    console.log("amount",amount)
     const senderId = req.user._id; 
     // assuming user is authenticated and req.user contains the sender's ID
   
@@ -19,7 +21,7 @@ const sendMoney = async (req, res) => {
       }
   console.log(sender.balance)
       // Update balances
-      parseInt(sender.balance  -= amount);
+      sender.balance  -= amount;
       recipient.balance += amount;
       console.log("recipient",recipient.balance)
       // Save transactions
@@ -27,13 +29,13 @@ const sendMoney = async (req, res) => {
         sender: senderId,
         recipient: recipient._id,
         amount: -amount,
-        description: `Payment to ${recipient.name}`,
+        description: `Payment to ${recipient.full_name}`,
       });
       const recipientTransaction = new Transaction({
         sender: senderId,
         recipient: recipient._id,
         amount,
-        description: `Payment from ${sender.name}`,
+        description: `Payment from ${sender.full_name}`,
       });
       await Promise.all([
         senderTransaction.save(),
@@ -42,7 +44,7 @@ const sendMoney = async (req, res) => {
         recipient.save(),
       ]);
   
-      res.json({ message: 'Payment successful' });
+      res.json({ message: 'Payment successful',senderTransaction });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Failed to send payment' });
@@ -55,8 +57,8 @@ const sendMoney = async (req, res) => {
   
     try {
       const transactions = await Transaction.find({ $or: [{ sender: userId }, { recipient: userId }] })
-        .populate('sender', 'name')
-        .populate('recipient', 'name')
+        .populate('sender', 'full_name')
+        .populate('recipient', 'full_name')
         .select('sender recipient amount description createdAt');
       res.json(transactions);
     } catch (error) {
